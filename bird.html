@@ -19,7 +19,7 @@
   <p>Click on the locations to find the birds, watch out for the forbidden statue</p>
   <p id="locations"> Number of locations checked is zero</p>
   <p id="score">Score is zero</p>
-  <p>Click for help</p>
+  <p onclick="help()">Click for help</p>
   <p id="help">Help report</p>
 
 <div class="row">
@@ -73,7 +73,7 @@
  </div>
 
 <script>
-  var ids=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34"]
+  var ids=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34"]
   var score = 0
   var locationsVisited = 0
   var lastLocation = 0
@@ -86,37 +86,63 @@
 
   function check(position){
     if (gameOver) return
-    var ids = ids[position]
-    var image = document.getElementById(ids)
+    var id = ids[position]
+    var image = document.getElementById(id)
+    locationsVisited++
 
     document.getElementById("locations").innerHTML = "Number of locations checked is "
     + locationsVisited
 
     if (position == statueLocation){
-      image.src = "statue.jpg"
+      image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Golden_Buddha_statue.jpg/256px-Golden_Buddha_statue.jpg"
       score -= 3
       gameOver = true
-    }
-
-    else if (position == toucanLocation){
-      image.src = "toucan.jpg"
-      score += 5
       image.onclick=null
     }
 
-    else if (buntingLocations.includes(position)){
-      image.src = "bunting.jpg"
+    else if (position == toucanLocation){
+      image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Toco_Toucan.jpg/256px-Toco_Toucan.jpg"      score += 5
+      image.onclick=null
+    }
+
+    else if (buntingLocation.includes(position)){
+      image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Indigo_Bunting.jpg/256px-Indigo_Bunting.jpg"
       score += 1
       image.onclick=null
     }
 
-    else if (lorikeetLocations.includes(position)){
-      image.src = "lorikeet.jpg"
+    else if (lorikeetLocation.includes(position)){
+      image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Rainbow_Lorikeet.jpg/256px-Rainbow_Lorikeet.jpg"
       score += 3
       image.onclick=null
     }
-locationsVisited++
 
+    document.getElementById("score").innerHTML = "Score is " + score
+    lastLocation = position
+
+  }
+  function help(){
+    var result = "silence"
+    var neighbors = [
+      (lastLocation + 1) % 35, (lastLocation + 34) % 35, (lastLocation + 7) % 35, (lastLocation + 28) % 35
+    ]
+
+    for(var i=0; i < neighbors.length; i++){
+      if(buntingLocation.includes(neighbors[i])){
+        result="cheep"
+      }
+    }
+    if(result=="silence"){
+      if(Math.abs(lastLocation - toucanLocation) <= 8){
+        result = "caw"
+      }
+    }
+    if(result=="silence"){
+      if(Math.abs(lastLocation - statueLocation) <= 8){
+        result = "thrrum"
+      }
+    }
+    document.getElementById("help").innerHTML = result
   }
 </script>
 
