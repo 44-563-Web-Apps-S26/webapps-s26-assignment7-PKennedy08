@@ -34,21 +34,41 @@
 	
 	<p> Press the button to create an new element of type div and then add it to the container.
 		</p>
-		<button onclick="makeNewDiv()">Add end</button>
-	
-	
+		<button onclick="addEnd()">Add end</button>
+		<button onclick="addFront()">Add Front</button>
+		<button onclick="removeItem()">Remove</button>
 </body>
 <script>
-	function makeNewDiv(){
+	function addEnd(){
 		/* make the div and its text */
+		let element = document.createElement("div")
 		let value = document.getElementById("inputText").value
 		element.innerHTML = value
+		element.className = "divlist"		
 		
 
 		/* add it to the container */
-		let container = document.getElementById('inputText')
+		let container = document.getElementById('target')
 		container.appendChild(element)
 		
+	}
+	function addFront(){
+		let element = document.createElement("div")
+		let value = document.getElementById("inputText").value
+		element.innerHTML = value
+		element.className = "divlist"
+		let container = document.getElementById("target")
+		container.insertBefore(element, container.firstChild)
+	}
+	function removeItem(){
+		let divListItems = document.getElementsByClassName("divlist")
+		let length = divListItems.length
+		if(length > 1 ){
+			divListItems[1].remove()
+		}
+		else if (length == 1){
+			divListItems[0].remove()
+		}
 	}
 </script>
 </html>	
